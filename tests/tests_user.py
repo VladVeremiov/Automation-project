@@ -69,7 +69,7 @@ def test_delete_user(api):
 
 def test_get_user_by_id(api):
     user_id = 999
-    response = api.get_users_by_id(user_id)
+    response = api.get_user(user_id)
     data = response.json()
-    assert response.status_code == 200
-    assert data == []
+    assert response.status_code == 404
+    assert data == {}
