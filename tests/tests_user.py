@@ -73,3 +73,11 @@ def test_get_user_by_id(api):
     data = response.json()
     assert response.status_code == 404
     assert data == {}
+
+def test_user_with_data(api):
+    response = api.get_user(1)
+    data = response.json()
+    assert response.status_code == 200
+    assert "id" in data
+    assert "name" in data
+    assert "email" in data
