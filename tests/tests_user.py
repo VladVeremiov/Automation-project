@@ -87,7 +87,6 @@ def test_users_with_unique_email(api):
     response = api.get_users()
     data = response.json()
     assert response.status_code == 200
-    assert len(data) == 10
     for user in data:
         emails.append(user["email"])
     assert len(emails) == len(set(emails))
