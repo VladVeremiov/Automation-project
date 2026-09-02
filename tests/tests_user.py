@@ -81,3 +81,13 @@ def test_user_with_data(api):
     assert "id" in data
     assert "name" in data
     assert "email" in data
+
+def test_users_with_unique_email(api):
+    emails = []
+    response = api.get_users()
+    data = response.json()
+    assert response.status_code == 200
+    for user in data:
+        emails.append(user["email"])
+    assert len(emails) == len(set(emails))
+
