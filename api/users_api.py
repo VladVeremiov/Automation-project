@@ -2,9 +2,14 @@ import requests
 BASE_URL = "https://jsonplaceholder.typicode.com"
 
 class UsersApi:
+    headers = {
+        "Accept": "application/json",
+    }
+
     def get_user(self, user_id):
         response = requests.get(
-            f"{BASE_URL}/users/{user_id}"
+            f"{BASE_URL}/users/{user_id}",
+            headers=self.headers
         )
         return response
 
