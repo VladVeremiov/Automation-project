@@ -14,6 +14,15 @@ class UsersApi:
         )
         return response
 
+    def get_users_by_username(self, username):
+        response = requests.get(
+            f"{BASE_URL}/users",
+            params={
+                "username": username
+            }
+        )
+        return response
+
     def create_user(self, name, email):
         response = requests.post(
             f"{BASE_URL}/users",
