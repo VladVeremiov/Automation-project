@@ -1,0 +1,53 @@
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def test_auth():
+    user = os.getenv("API_USERNAME")
+    password = os.getenv("API_PASSWORD")
+    response = requests.post(
+    "https://dummyjson.com/auth/login",
+    json={
+        "username": user,
+        "password": password
+    }
+)
+    assert response.status_code == 200
+    data = response.json()
+    token = data["accessToken"]
+
+    response = requests.get(
+    "https://dummyjson.com/auth/me",
+    headers={
+        "Authorization": f"Bearer {token}"}
+)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["username"] == "emilys"
+    assert data["id"] == 1
+
+def test_auth_invalid_password():
+    user = os.getenv("API_USERNAME")
+    password = "12345"
+    response = requests.post(
+        "https://dummyjson.com/auth/login",
+        json={
+            "username": user,
+            "password": password
+        }
+    )
+    assert response.status_code == 400
+
+def test_auth_invalid_username():
+    user = "invalidpassword"
+    password = os.getenv("API_PASSWORD")
+    response = requests.post(
+        "https://dummyjson.com/auth/login",
+        json={
+            "username": user,
+            "password": password
+        }
+    )
+    assert response.status_code == 400
