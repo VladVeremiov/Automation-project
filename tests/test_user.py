@@ -133,6 +133,15 @@ def test_user_with_data(api):
     assert "name" in data
     assert "email" in data
 
+def test_user_data_types(api):
+    response = api.get_user(1)
+    data = response.json()
+    assert response.status_code == 200
+    assert type(data["id"]) == int
+    assert type(data["name"]) == str
+    assert type(data["email"]) == str
+    assert "@" in data["email"]
+
 def test_users_with_unique_email(api):
     emails = []
     response = api.get_users()
