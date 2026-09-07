@@ -1,4 +1,6 @@
 import pytest
+import requests
+
 
 @pytest.mark.parametrize("user_id", [1, 2, 3])
 def test_get_user(api, user_id):
@@ -150,4 +152,3 @@ def test_users_with_unique_email(api):
     for user in data:
         emails.append(user["email"])
     assert len(emails) == len(set(emails))
-
