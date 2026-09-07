@@ -152,3 +152,17 @@ def test_users_with_unique_email(api):
     for user in data:
         emails.append(user["email"])
     assert len(emails) == len(set(emails))
+
+def test_get_user_and_update(api):
+    response = api.get_user(1)
+    data = response.json()
+    assert response.status_code == 200
+    user_id = data["id"]
+    name = data["name"]
+    email = data["email"]
+
+    response = api.update_user(user_id, name + "QA", email)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == name + "QA"
+
