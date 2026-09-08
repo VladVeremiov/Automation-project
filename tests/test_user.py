@@ -1,11 +1,13 @@
 import pytest
 import requests
-
+from utils import get_test_message
 
 @pytest.mark.parametrize("user_id", [1, 2, 3])
 def test_get_user(api, user_id):
     response = api.get_user(user_id)
     assert response.status_code == 200
+    message = get_test_message()
+    print(message)
 
 @pytest.mark.parametrize(
     "user_id, expected_name",
@@ -19,6 +21,8 @@ def test_user_name(api, user_id, expected_name):
     response = api.get_user(user_id)
     data = response.json()
     assert data["name"] == expected_name
+    message = get_test_message()
+    print(message)
 
 @pytest.mark.parametrize(
     "username",
