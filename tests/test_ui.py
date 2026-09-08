@@ -1,3 +1,4 @@
+import json
 from playwright.sync_api import expect
 #page.goto(...)       # перейти на страницу
 #page.locator(...)    # найти элемент
@@ -5,10 +6,17 @@ from playwright.sync_api import expect
 #page.fill(...)       # ввести текст
 
 def test_user_login(page):
+    with open("test_data/users.json") as file:
+        users = json.load(file)
+
+    username = users["valid_user"]["username"]
+    password = users["valid_user"]["password"]
+
     page.goto("https://www.saucedemo.com/")
-    page.locator('[data-test="username"]').fill("standard_user")
-    page.locator('[data-test="password"]').fill("secret_sauce")
+    page.locator('[data-test="username"]').fill(username)
+    page.locator('[data-test="password"]').fill(password)
     page.locator('[data-test="login-button"]').click()
+
     expect(page).to_have_url(
         "https://www.saucedemo.com/inventory.html")
     expect(page.locator('[data-test="title"]')).to_have_text("Products")
@@ -107,7 +115,7 @@ def test_price_jacket(page):
     )
     expect(product.locator(".inventory_item_price")).to_have_text("$49.99")
 
-def test_price_jacket_via_get_by_text(page):
+def test_product_name_visible(page):
     page.goto("https://www.saucedemo.com/")
     page.locator('[data-test="username"]').fill("standard_user")
     page.locator('[data-test="password"]').fill("secret_sauce")
