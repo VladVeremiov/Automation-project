@@ -1,3 +1,4 @@
+import pytest
 import requests
 import os
 from dotenv import load_dotenv
@@ -85,7 +86,7 @@ def test_auth_invalid_username():
     )
     assert response.status_code == 400
 
-def test_request_error():
+def test_request_error_try_except():
     try:
         response = requests.get(
             "https://www.saucedemo.com:81",
@@ -93,3 +94,10 @@ def test_request_error():
         )
     except requests.exceptions.RequestException:
         print("Request failed")
+
+def test_request_error_with():
+    with pytest.raises(requests.exceptions.RequestException):
+        requests.get(
+            "https://www.saucedemo.com:81",
+            timeout=5
+        )
