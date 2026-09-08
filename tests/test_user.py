@@ -1,11 +1,14 @@
 import pytest
 import requests
-from utils import get_test_message
+from utils import get_test_message, check_status_code
+
 
 @pytest.mark.parametrize("user_id", [1, 2, 3])
 def test_get_user(api, user_id):
     response = api.get_user(user_id)
-    assert response.status_code == 200
+    status_code = response.status_code
+    status_check = check_status_code(status_code)
+    assert status_check
     message = get_test_message()
     print(message)
 
