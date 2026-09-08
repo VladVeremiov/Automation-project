@@ -2,6 +2,7 @@ import pytest
 import requests
 import os
 from dotenv import load_dotenv
+from pygments.lexers import data
 
 load_dotenv()
 
@@ -101,3 +102,4 @@ def test_request_error_with():
             "https://www.saucedemo.com:81",
             timeout=5
         )
+
