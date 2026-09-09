@@ -1,6 +1,7 @@
 {
     "valid_user": {
-        "username": "standard_user",
-        "password": "secret_sauce"
+        "username": "TestName",
+        "email": "testmail@example.com",
+        "password": "password101"
     }
 }

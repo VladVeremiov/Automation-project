@@ -1,105 +1,46 @@
-import pytest
-import requests
-import os
-from dotenv import load_dotenv
-from pygments.lexers import data
+import json
+import uuid
+from api.auth_api import AuthAPI
+api = AuthAPI()
 
-load_dotenv()
+def test_register_api():
+    unique_id = str(uuid.uuid4())[:8]
+    email = f"test_{unique_id}@example.com"
+    password = "Test123!"
+    name = "Test User"
+    response = api.register_user(email, password, name)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["user"]["email"] == email
+    assert data["user"]["name"] == name
 
-def test_auth():
-    user = os.getenv("API_USERNAME")
-    password = os.getenv("API_PASSWORD")
-    response = requests.post(
-    "https://dummyjson.com/auth/login",
-    json={
-        "username": user,
-        "password": password
-    }
-)
+def test_login_api(user_data):
+
+    response = api.login(user_data["valid_user"]["email"], user_data["valid_user"]["password"])
     assert response.status_code == 200
     data = response.json()
-    token = data["accessToken"]
+    access_token = data["access_token"]
+    assert data["access_token"]
+    print(access_token)
 
-    response = requests.get(
-    "https://dummyjson.com/auth/me",
-    headers={
-        "Authorization": f"Bearer {token}"}
-)
+def test_auth_me_api(auth_api, access_token, user_data):
+    response = auth_api.auth_me(access_token)
     assert response.status_code == 200
     data = response.json()
-    assert data["username"] == "emilys"
-    assert data["id"] == 1
+    assert "user" in data
+    assert data["user"]["email"] == user_data["valid_user"]["email"]
 
-def test_auth_chain():
-    user = os.getenv("API_USERNAME")
-    password = os.getenv("API_PASSWORD")
-    response = requests.post(
-        "https://dummyjson.com/auth/login",
-        json={
-            "username": user,
-            "password": password
-        }
-    )
-    assert response.status_code == 200
+def test_create_task_api(tasks_api, access_token):
+    title = "Test Task"
+    description = "Test Description"
+    priority = "medium"
+    status = "backlog"
+    response = tasks_api.create_task(access_token, title, description, priority, status)
+    assert response.status_code == 201
     data = response.json()
-    token = data["accessToken"]
+    assert data["title"] == title
+    assert data["description"] == description
+    assert data["priority"] == priority
+    assert data["status"] == status
 
-    response = requests.get(
-    "https://dummyjson.com/auth/me",
-    headers={
-        "Authorization": f"Bearer {token}"
-    }
-    )
-    assert response.status_code == 200
-    data = response.json()
-    user_id = data["id"]
-    print(user_id)
-
-    response = requests.get(
-    f"https://dummyjson.com/users/{user_id}"
-    )
-    assert response.status_code == 200
-    data = response.json()
-    assert data["id"] == user_id
-
-
-def test_auth_invalid_password():
-    user = os.getenv("API_USERNAME")
-    password = "12345"
-    response = requests.post(
-        "https://dummyjson.com/auth/login",
-        json={
-            "username": user,
-            "password": password
-        }
-    )
-    assert response.status_code == 400
-
-def test_auth_invalid_username():
-    user = "invalidpassword"
-    password = os.getenv("API_PASSWORD")
-    response = requests.post(
-        "https://dummyjson.com/auth/login",
-        json={
-            "username": user,
-            "password": password
-        }
-    )
-    assert response.status_code == 400
-
-def test_request_error_try_except():
-    try:
-        response = requests.get(
-            "https://www.saucedemo.com:81",
-            timeout=5
-        )
-    except requests.exceptions.RequestException:
-        print("Request failed")
-
-def test_request_error_with():
-    with pytest.raises(requests.exceptions.RequestException):
-        requests.get(
-            "https://www.saucedemo.com:81",
-            timeout=5
-        )
 

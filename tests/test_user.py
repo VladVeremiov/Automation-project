@@ -173,3 +173,17 @@ def test_get_user_and_update(api):
     data = response.json()
     assert data["name"] == name + "QA"
 
+def test_create_user_data(api):
+    response = api.create_user(name="Victor", email="test@gmail.com")
+    data = response.json()
+    user_id = data["id"]
+    user_name = data["name"]
+    user_email = data["email"]
+    assert user_id
+    assert user_name == "Victor"
+    assert user_email == "test@gmail.com"
+
+def check_user_name(api):
+    response = api.get_users()
+    data = response.json()
+    assert response.status_code == 200
