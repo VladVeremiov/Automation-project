@@ -1,17 +1,6 @@
 import json
 import uuid
 from playwright.sync_api import expect
-#page.goto(...)       # перейти на страницу
-#page.locator(...)    # найти элемент
-#page.click(...)      # нажать
-#page.fill(...)       # ввести текст
-
-def test_uuid():
-    unique_id = str(uuid.uuid4())[:8]
-    print(unique_id)
-
-    email = f"test_user_{unique_id}@example.com"
-    print(email)
 
 def test_register(page):
     unique_id = str(uuid.uuid4())[:8]
