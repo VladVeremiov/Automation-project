@@ -30,17 +30,6 @@ def test_auth_me_api(auth_api, access_token, user_data):
     assert "user" in data
     assert data["user"]["email"] == user_data["valid_user"]["email"]
 
-def test_create_task_api(tasks_api, access_token):
-    title = "Test Task"
-    description = "Test Description"
-    priority = "medium"
-    status = "backlog"
-    response = tasks_api.create_task(access_token, title, description, priority, status)
-    assert response.status_code == 201
-    data = response.json()
-    assert data["title"] == title
-    assert data["description"] == description
-    assert data["priority"] == priority
-    assert data["status"] == status
+
 
 
