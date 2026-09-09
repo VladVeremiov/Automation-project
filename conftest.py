@@ -2,13 +2,8 @@ import json
 import pytest
 
 from api.tasks_api import TasksAPI
-from api.users_api import UsersApi
 from api.auth_api import AuthAPI
 
-
-@pytest.fixture
-def api():
-    return UsersApi()
 
 @pytest.fixture
 def auth_api():
