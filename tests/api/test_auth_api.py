@@ -27,7 +27,7 @@ def test_auth_me_api(auth_api, access_token, user_data):
     response = auth_api.auth_me(access_token)
     assert response.status_code == 200
     data = response.json()
-    assert "user" in data
+    assert "user" in 234data
     assert data["user"]["email"] == user_data["valid_user"]["email"]
 
 
