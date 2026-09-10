@@ -15,7 +15,10 @@ def tasks_api():
 
 @pytest.fixture
 def access_token(auth_api,user_data):
-    response = auth_api.login(user_data["valid_user"]["email"], user_data["valid_user"]["password"])
+    response = auth_api.login(
+        user_data["valid_user"]["email"],
+        user_data["valid_user"]["password"]
+    )
     data = response.json()
     access_token = data["access_token"]
     return access_token
