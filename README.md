@@ -1,14 +1,18 @@
 # Automation Project
 
-My QA automation project for practicing Python and pytest.
+My QA automation project for practicing Python, pytest and test automation.
 
-Currently I'm mainly working with API testing using `requests` and pytest.
+Currently the project includes API testing and Playwright-based UI automation.
 
 ## Tech Stack
 
 * Python
 * pytest
 * requests
+* Playwright
+* pytest-playwright
+* python-dotenv
+* Docker
 * Git / GitHub
 * GitHub Actions
 
@@ -34,6 +38,22 @@ Currently I'm mainly working with API testing using `requests` and pytest.
 * Update task status
 * API chaining
 
+## UI Tests
+
+Authentication:
+
+* User registration
+* User login
+* Redirect to dashboard after successful authentication
+
+Tasks:
+
+* Create a new task
+* Edit an existing task
+* Change task priority
+* Verify edited task data
+* Delete a task
+
 ## Running tests
 
 Install dependencies:
@@ -42,7 +62,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Run tests:
+Run tests locally:
 
 ```bash
 pytest
@@ -54,10 +74,28 @@ Run API tests:
 pytest tests/api
 ```
 
+## Docker
+
+The project can also be run inside a Docker container.
+
+Build the Docker image:
+
+```bash
+docker build -t automation-project .
+```
+
+Run all tests inside the container:
+
+```bash
+docker run --rm automation-project pytest
+```
+
+The Docker image includes Python dependencies and Chromium required for Playwright UI tests.
+
 ## CI
 
 Tests are also running through GitHub Actions.
 
 ## Project status
 
-The project is still in development. I'm gradually adding new tests and automation features while learning QA automation with Python.
+The project is still in development.
