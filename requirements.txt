@@ -3,3 +3,4 @@ pytest
 python-dotenv
 playwright
 pytest-playwright
+psycopg2-binary
