@@ -3,6 +3,7 @@ import pytest
 
 from api.tasks_api import TasksAPI
 from api.auth_api import AuthAPI
+from db.connection import create_connection
 
 
 @pytest.fixture
@@ -29,4 +30,21 @@ def user_data():
         users = json.load(file)
     return users
 
+@pytest.fixture
+def db_cursor():
+    connection = create_connection()
+    cursor = connection.cursor()
+    yield cursor
+    cursor.close()
+    connection.close()
 
+@pytest.fixture
+def db_connection():
+    connection = create_connection()
+    yield connection
+    connection.close()
+
+@pytest.fixture
+def login():
+    with open("test_data/users.json") as file:
+        users = json.load(file)

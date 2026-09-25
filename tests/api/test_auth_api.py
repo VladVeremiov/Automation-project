@@ -1,3 +1,5 @@
+import email
+
 import pytest
 import json
 import uuid
@@ -64,3 +66,8 @@ def test_login_parametrized(user_data):
 def test_login_parametrized_v2(email, password, expected_status):
     response = api.login(email, password)
     assert response.status_code == expected_status
+
+list
+set
+dict
+tuple
