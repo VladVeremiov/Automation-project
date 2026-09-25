@@ -9,7 +9,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres:18
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -39,5 +39,8 @@ jobs:
       - run: pip install -r requirements.txt
 
       - run: playwright install --with-deps
+
+      - name: Load DB schema and seed data
+        run: PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -f db/init/init.sql
 
       - run: pytest
